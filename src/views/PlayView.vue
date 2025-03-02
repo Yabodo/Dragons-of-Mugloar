@@ -59,33 +59,34 @@ onMounted(async () => {
         {{ adResult?.message }}
       </section>
 
-      <section class="items-container">
-        <h2>Available Items:</h2>
-        <div v-if="items?.length" class="ads-list">
-          <div v-for="item in items" :key="item.id" class="message">
-            <button @click="buyItem(item.id)" class="medieval-button" :disabled="loading">
-              Buy
-            </button>
-            <div class="message-stats">
-              <p class="soft-red">{{ item.name }}</p>
-              <p>Cost: {{ item.cost }}</p>
+      <section class="ads-items-container">
+        <div class="ads-container">
+          <h2>Available Ads:</h2>
+          <div v-if="ads?.length" class="ads-list">
+            <div v-for="ad in ads" :key="ad.adId" class="message">
+              <button @click="accept(ad.adId)" class="medieval-button" :disabled="loading">
+                Accept
+              </button>
+              <div class="message-stats">
+                <p>Reward: {{ ad.reward }}</p>
+                <p>Probability: {{ ad.probability }}</p>
+                <p>Turns left: {{ ad.expiresIn }}</p>
+                <p>{{ ad.message }}</p>
+              </div>
             </div>
           </div>
         </div>
-      </section>
-
-      <section class="ads-container">
-        <h2>Available Ads:</h2>
-        <div v-if="ads?.length" class="ads-list">
-          <div v-for="ad in ads" :key="ad.adId" class="message">
-            <button @click="accept(ad.adId)" class="medieval-button" :disabled="loading">
-              Accept
-            </button>
-            <div class="message-stats">
-              <p>Reward: {{ ad.reward }}</p>
-              <p>Probability: {{ ad.probability }}</p>
-              <p>Turns left: {{ ad.expiresIn }}</p>
-              <p>{{ ad.message }}</p>
+        <div class="items-container">
+          <h2>Available Items:</h2>
+          <div v-if="items?.length" class="ads-list">
+            <div v-for="item in items" :key="item.id" class="message">
+              <button @click="buyItem(item.id)" class="medieval-button" :disabled="loading">
+                Buy
+              </button>
+              <div class="message-stats">
+                <p class="soft-red">{{ item.name }}</p>
+                <p>Cost: {{ item.cost }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -100,6 +101,10 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.ads-items-container {
+  display: flex;
+}
+
 .message {
   display: flex;
   padding: 0.5rem;

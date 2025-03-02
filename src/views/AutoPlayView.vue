@@ -19,10 +19,10 @@ const {
   buyItem,
 } = useGame()
 
-const RESERVE_GOLD = 200
+const MOVE_INTERVAL = 200
+const RESERVE_GOLD = 300
 const OPTIMAL_GOLD = 500
-const OPTIMAL_HEALTH = 7
-const MAX_RISK = 6
+const OPTIMAL_HEALTH = 10
 
 const PROBABILITY_RISK_MAP = {
   'Piece of cake': 1,
@@ -57,6 +57,14 @@ const upgradeCounts = ref<Record<string, number>>(
   Object.fromEntries(UPGRADE_ITEMS.map((item) => [item, 0])),
 )
 
+function tryDecode(str: string): string {
+  try {
+    return atob(str)
+  } catch {
+    return str
+  }
+}
+
 function stopAutoPlay() {
   if (autoPlayInterval.value) {
     clearInterval(autoPlayInterval.value)
@@ -77,28 +85,40 @@ function findAffordableItem(itemName: string) {
 }
 
 function getAdScore(ad: Ad) {
-  const probability = ad.encrypted ? atob(ad.probability) : ad.probability
+  const probability = ad.encrypted ? tryDecode(ad.probability) : ad.probability
+  const message = (ad.encrypted ? tryDecode(ad.message) : ad.message).toLowerCase()
+  const enemyOfState = message.includes('steal') // -2 state
+  const defenderOfPeople = message.includes('help defending') // 1 people
+  const robinHood = message.includes('share some of the profits with the people') // 1 people
+  const diplomat = message.includes('to reach agreement') // 0.2 people
+  const advertiser = message.includes('create an advertisement campaign') //0.2 people
+  const transporter = message.includes('to transport') // 0.1 people
+  const escorter = message.includes('escort') // 0.1 people
   const risk = PROBABILITY_RISK_MAP[probability as keyof typeof PROBABILITY_RISK_MAP] || 7
-  return ad.reward / risk / ad.expiresIn
+  return (
+    (10_000_000 * ad.reward) /
+    risk /
+    (enemyOfState ? 2 : 1) /
+    (defenderOfPeople ? 10 : 1) /
+    (robinHood ? 10 : 1) /
+    (diplomat ? 3 : 1) /
+    (advertiser ? 3 : 1) /
+    (transporter ? 2 : 1) /
+    (escorter ? 2 : 1)
+  )
 }
 
 async function makeMove() {
   if (loading.value || gameOver.value) return
 
-  let acceptedAd = false
-
   await fetchAds()
 
   if (ads.value) {
-    const bestAd = ads.value.reduce((prev, current) =>
+    const sortedAds = ads.value.sort((a, b) => b.expiresIn - a.expiresIn)
+    const bestAd = sortedAds.reduce((prev, current) =>
       getAdScore(current) > getAdScore(prev) ? current : prev,
     )
-    const probability = bestAd.encrypted ? atob(bestAd.probability) : bestAd.probability
-    console.log(PROBABILITY_RISK_MAP[probability as keyof typeof PROBABILITY_RISK_MAP])
-    acceptedAd = PROBABILITY_RISK_MAP[probability as keyof typeof PROBABILITY_RISK_MAP] <= MAX_RISK
-    if (acceptedAd) {
-      await acceptAd(bestAd.encrypted ? atob(bestAd.adId) : bestAd.adId)
-    }
+    await acceptAd(bestAd.encrypted ? tryDecode(bestAd.adId) : bestAd.adId)
   }
 
   if (items.value && game.value) {
@@ -132,7 +152,7 @@ async function makeMove() {
 
 function startAutoPlay() {
   isAutoPlaying.value = true
-  autoPlayInterval.value = setInterval(makeMove, 2000)
+  autoPlayInterval.value = setInterval(makeMove, MOVE_INTERVAL)
 }
 
 onMounted(async () => {
@@ -196,7 +216,7 @@ watch([() => error.value, () => game.value?.lives], ([error, lives]) => {
       </template>
 
       <div class="game-status">
-        <h2 v-if="gameOver" class="game-over">
+        <h2 v-if="gameOver && !loading" class="game-over">
           Game Over! We scored <span class="soft-red">{{ game?.score }}</span> points!
         </h2>
         <h2 v-else>Status: {{ isAutoPlaying ? 'Auto-Playing' : 'Idle' }}</h2>
