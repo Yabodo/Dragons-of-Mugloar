@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Introduction from '../components/Introduction.vue'
+import GameIntroduction from '../components/GameIntroduction.vue'
 </script>
 
 <template>
   <main>
-    <Introduction />
+    <GameIntroduction />
   </main>
 </template>
