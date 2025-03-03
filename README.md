@@ -2,6 +2,8 @@
 
 This is an implementation of frontend and backend solutions for Dragons of Mugloar, Bigbank's home assignment. It consistenly scores over 1000 points on auto-play.
 
+[Solution online](https://dragons-of-mugloar.vercel.app/play)
+
 ## Autoplay
 
 Starts a new game
