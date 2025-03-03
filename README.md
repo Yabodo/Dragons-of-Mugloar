@@ -2,6 +2,14 @@
 
 This is an implementation of frontend and backend solutions for Dragons of Mugloar, Bigbank's home assignment. It consistenly scores over 1000 points on auto-play.
 
+## Autoplay
+
+Starts a new game
+Fetches a list of ads
+Picks the best ads to solve and solves them
+Buys items to improve its chances.
+Repeats from step two until lives run out.
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).

@@ -101,10 +101,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.ads-items-container {
-  display: flex;
-}
-
 .message {
   display: flex;
   padding: 0.5rem;
@@ -123,6 +119,10 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .ads-items-container {
+    display: flex;
   }
 }
 </style>
