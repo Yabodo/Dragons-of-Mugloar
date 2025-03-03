@@ -19,8 +19,10 @@ const {
 } = useGame()
 
 async function accept(adId: string) {
+  loading.value = true
   await acceptAd(adId)
   await fetchAds()
+  loading.value = false
 }
 
 onMounted(async () => {
