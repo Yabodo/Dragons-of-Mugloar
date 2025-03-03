@@ -4,11 +4,11 @@ This is an implementation of frontend and backend solutions for Dragons of Muglo
 
 ## Autoplay
 
-Starts a new game
-Fetches a list of ads
-Picks the best ads to solve and solves them
-Buys items to improve its chances.
-Repeats from step two until lives run out.
+1. Starts a new game
+2. Fetches a list of ads
+3. Picks the best ads to solve and solves them
+4. Buys items to improve its chances
+5. Repeats from step two until lives run out
 
 ## Recommended IDE Setup
 
