@@ -62,7 +62,7 @@ onMounted(async () => {
       <section class="ads-items-container">
         <div class="ads-container">
           <h2>Available Ads:</h2>
-          <div v-if="ads?.length" class="ads-list">
+          <div v-if="ads?.length">
             <div v-for="ad in ads" :key="ad.adId" class="message">
               <button @click="accept(ad.adId)" class="medieval-button" :disabled="loading">
                 Accept
@@ -78,7 +78,7 @@ onMounted(async () => {
         </div>
         <div class="items-container">
           <h2>Available Items:</h2>
-          <div v-if="items?.length" class="ads-list">
+          <div v-if="items?.length">
             <div v-for="item in items" :key="item.id" class="message">
               <button @click="buyItem(item.id)" class="medieval-button" :disabled="loading">
                 Buy
@@ -111,6 +111,10 @@ onMounted(async () => {
 .message-stats {
   padding: 1rem;
   overflow-wrap: anywhere;
+}
+
+.ads-items-container {
+  display: block;
 }
 
 @media (min-width: 1024px) {
