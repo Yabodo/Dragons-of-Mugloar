@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import PlayView from '../views/PlayView.vue'
+import AutoPlayView from '../views/AutoPlayView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,12 +14,12 @@ const router = createRouter({
     {
       path: '/play',
       name: 'play',
-      component: () => import('../views/PlayView.vue'),
+      component: PlayView,
     },
     {
       path: '/autoplay',
       name: 'autoplay',
-      component: () => import('../views/AutoPlayView.vue'),
+      component: AutoPlayView,
     },
   ],
 })
