@@ -52,7 +52,7 @@ const UPGRADE_ITEMS = [
 ]
 
 const isAutoPlaying = ref(false)
-const autoPlayInterval = ref<number | null>(null)
+const autoPlayInterval = ref<ReturnType<typeof setInterval> | null>(null)
 const upgradeCounts = ref<Record<string, number>>(
   Object.fromEntries(UPGRADE_ITEMS.map((item) => [item, 0])),
 )
