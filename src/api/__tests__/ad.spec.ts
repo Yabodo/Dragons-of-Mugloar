@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { adService } from '../ad'
+import { adService } from '../message'
 import fetchApi from '../config/config'
 
 vi.mock('../config/config')
