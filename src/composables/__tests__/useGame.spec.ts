@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useGame } from '../useGame'
 import { gameService } from '@/api/game'
 import { investigationService } from '@/api/investigation'
-import { adService } from '@/api/ad'
+import { adService } from '@/api/message'
 import { shopService } from '@/api/shop'
 
 // Mock all API services
