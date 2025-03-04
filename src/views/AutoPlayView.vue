@@ -19,10 +19,10 @@ const {
   buyItem,
 } = useGame()
 
-const MOVE_INTERVAL = 200
+const MOVE_INTERVAL = 1000
 const RESERVE_GOLD = 300
 const OPTIMAL_GOLD = 500
-const OPTIMAL_HEALTH = 10
+const OPTIMAL_HEALTH = 7
 
 const PROBABILITY_RISK_MAP = {
   'Piece of cake': 1,
@@ -92,8 +92,8 @@ function getAdScore(ad: Ad) {
   const robinHood = message.includes('share some of the profits with the people') // 1 people
   const diplomat = message.includes('to reach agreement') // 0.2 people
   const advertiser = message.includes('create an advertisement campaign') //0.2 people
-  const transporter = message.includes('to transport') // 0.1 people
-  const escorter = message.includes('escort') // 0.1 people
+  // const transporter = message.includes('to transport') // 0.1 people
+  // const escorter = message.includes('escort') // 0.1 people
   const risk = PROBABILITY_RISK_MAP[probability as keyof typeof PROBABILITY_RISK_MAP] || 7
   return (
     (10_000_000 * ad.reward) /
@@ -101,10 +101,8 @@ function getAdScore(ad: Ad) {
     (enemyOfState ? 2 : 1) /
     (defenderOfPeople ? 10 : 1) /
     (robinHood ? 10 : 1) /
-    (diplomat ? 3 : 1) /
-    (advertiser ? 3 : 1) /
-    (transporter ? 2 : 1) /
-    (escorter ? 2 : 1)
+    (diplomat ? 2 : 1) /
+    (advertiser ? 2 : 1)
   )
 }
 
